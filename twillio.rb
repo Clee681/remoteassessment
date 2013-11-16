@@ -2,7 +2,7 @@ require 'twilio-ruby'
 
 account_sid = ""
 auth_token = ""
-teacher_number = "3036257938"  #teacher.new
+teacher_number = ""  #teacher.new
 
 client = Twilio::REST::Client.new account_sid, auth_token
  
