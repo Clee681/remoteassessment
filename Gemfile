@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
+gem "dotenv-rails"
 gem "faker"
 gem "devise"
 gem "twilio"
