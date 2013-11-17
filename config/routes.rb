@@ -17,6 +17,8 @@ Remoteassessment::Application.routes.draw do
 
   root :to => 'static#index'
 
+  get '/about' => 'static#about', as: 'about'
+
   devise_scope :teacher do
     get '/login' => 'devise/sessions#new'
   end

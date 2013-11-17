@@ -12,6 +12,7 @@ gem "dotenv-rails"
 gem "faker"
 gem "devise"
 gem "twilio"
+gem "bootstrap-sass", github: "thomas-mcdonald/bootstrap-sass", branch: "3"
 
 group :doc do
   gem 'sdoc', require: false
