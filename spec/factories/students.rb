@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :student do
-    name "MyString"
-    phone_number 1
-    group nil
+    name { Faker::Name.first_name }
+    phone_number { Faker::PhoneNumber.phone_number }
   end
 end

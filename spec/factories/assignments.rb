@@ -2,9 +2,10 @@
 
 FactoryGirl.define do
   factory :assignment do
-    name "MyString"
-    description "MyString"
+    name "Chapter 1 Homework"
+    description "Basic Geography"
     datetime_to_send "2013-11-16 15:51:37"
-    teacher nil
+    #association :group
+    association :teacher
   end
 end
