@@ -20,6 +20,11 @@ Remoteassessment::Application.routes.draw do
   devise_scope :teacher do
     get '/login' => 'devise/sessions#new'
   end
+
+  get '/test_send_action' => 'messages#test_send_action'
+  get '/test_receive_answer' => 'messages#test_receive_answer'
+  post '/test_receive_answer' => 'messages#test_receive_answer'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

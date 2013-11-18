@@ -11,7 +11,8 @@ gem 'jbuilder', '~> 1.2'
 gem "dotenv-rails"
 gem "faker"
 gem "devise"
-gem "twilio"
+gem "twilio-ruby"
+gem "twilio-rb"
 
 group :doc do
   gem 'sdoc', require: false
