@@ -52,6 +52,7 @@ class MessagesController < ApplicationController
   end
 
   def test_receive_answer
+    binding.pry
     # grab the from field
     # remove the +1 which twilio adds
     # compare to database
