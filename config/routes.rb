@@ -11,17 +11,21 @@ Remoteassessment::Application.routes.draw do
 
   resources :groups
 
-  #get "static/index"
-  get "static/about"
+  # get "static/index"
+  # get "static/about"
+  
   devise_for :teachers
+
+  devise_scope :teacher do
+    get '/login' => 'devise/sessions#new'
+  end
+
+  resources :teachers
 
   root :to => 'static#index'
 
   get '/about' => 'static#about', as: 'about'
 
-  devise_scope :teacher do
-    get '/login' => 'devise/sessions#new'
-  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
