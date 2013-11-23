@@ -29,9 +29,7 @@ class MessagesController < ApplicationController
   end
 
   def test_send_action
-      account_sid = 'ACa194ec6c151ef1e99bfec90e4836d138'
-    auth_token = 'b037ae25bd3be6ec8e750c7b1b57ae7c'
-    @client = Twilio::REST::Client.new account_sid, auth_token
+    @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
 
     question = Question.first.content
     teacher_number = Teacher.first.phone_number
@@ -42,9 +40,9 @@ class MessagesController < ApplicationController
 
     students_array.each do |student|
       @client.account.sms.messages.create(
-        :from => teacher_number,
-        :to => "+1#{student.phone_number}",
-        :body => "Hi, #{student.name}! #{question}"
+        :from => +12139862443,
+        :to => "+12132158528",
+        :body => "Hi, chris"
       )
     end
 

@@ -28,6 +28,7 @@ group :test, :development do
   gem "factory_girl_rails"
   gem "twilio-test-toolkit"
   gem "database_cleaner"
+  gem "dotenv-rails"
   gem "pry"
 end
 
