@@ -15,6 +15,8 @@ Remoteassessment::Application.routes.draw do
   resources :students
 
   resources :groups
+
+  resources :messages, only: [:new]
   
   devise_for :teachers
 

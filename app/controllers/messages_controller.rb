@@ -24,6 +24,11 @@ class MessagesController < ApplicationController
  "action"=>"test_receive_answer"}
 =end
 
+  def new
+    @assignments = current_teacher.assignments
+    @groups = current_teacher.groups
+    # binding.pry
+  end
 
   def send_text_message
   end

@@ -1,0 +1,20 @@
+<h1>Start your remote assessment now!</h1>
+
+
+<%= form_tag '/messages', method: 'post' do %>
+  <%= label_tag(:assignment, "Please select the assignment:") %>
+  <%= select_tag :assignment, options_for_select(@assignments.map { |a| [a.name, a.id] }) %><br>
+  <% @groups.each do |g| %>
+    <%= check_box_tag 'groups[]', g.id, false, id: "group_#{g.id}" %>
+    <%= label_tag "group_#{g.id}", g.name %><br>
+  <% end %>
+  <br>
+  <%= submit_tag("Send Remote Assessment") %>
+<% end %>
+
+
+
+select their assignment
+select the groups to send to
+
+click submit

@@ -1,6 +1,7 @@
 <h1>Welcome, <%= @teacher.email %></h1>
 <!-- GROUP -->
-<%= link_to "New Assignment", new_assignment_path %>
+<%= link_to "New Assignment", new_assignment_path %><br>
+<%= link_to "Start Assignment Assessment", new_message_path %>
 <div class='container'>
   <% @teacher.groups.each do |group| %>
     <h2><%= group.name %></h2>
