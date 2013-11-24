@@ -1,1 +1,15 @@
-assignments/index.html.erb
+<h1>Welcome, <%= @teacher.email %></h1>
+<!-- GROUP -->
+<div class='container'>
+  <% @teacher.groups.each do |group| %>
+    <h2><%= group.name %></h2>
+    <table>
+    <% group.students.each do |student| %>
+      <tr>
+        <td><%= student.name %></td>
+      </tr>
+    <% end %>
+  </table>
+  <% end %>
+</div>
+<!-- END GROUP -->
