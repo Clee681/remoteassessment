@@ -3,6 +3,7 @@ Remoteassessment::Application.routes.draw do
   get '/about' => 'static#about', as: 'about'
 
   get '/assignments' => 'assignments#index', as: 'teacher_root'
+  get '/assignments/new' => 'assignments#new', as: 'new_assignment'
   
   resources :answers
 
