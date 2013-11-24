@@ -17,6 +17,7 @@ Remoteassessment::Application.routes.draw do
   resources :groups
 
   resources :messages, only: [:new]
+  post '/messages' => 'messages#send_text_message'
   
   devise_for :teachers
 

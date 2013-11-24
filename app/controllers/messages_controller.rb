@@ -27,10 +27,36 @@ class MessagesController < ApplicationController
   def new
     @assignments = current_teacher.assignments
     @groups = current_teacher.groups
-    # binding.pry
   end
 
   def send_text_message
+    @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
+
+    @assignment = Assignment.find(params[:message_to_send][:assignment])
+    sms_content = @assignment.description
+    teacher_number = current_teacher.phone_number
+
+
+    # let's an array of all our groups
+    groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
+      Group.find(group_id)
+    end
+
+    student_phone_numbers_to_text = groups_to_receive_assessment.map do |group|
+      group.students.map do |student|
+        student.phone_number
+      end
+    end.flatten
+
+    student_phone_numbers_to_text.each do |student_phone_number|
+      @client.account.sms.messages.create(
+        :from => "+1#{teacher_number}",
+        :to => "+1#{student_phone_number}",
+        :body => "#{sms_content}"
+      )
+    end
+
+    redirect_to teacher_root_path, notice: "You successfully sent the message!"
   end
 
   def test_send_action
@@ -76,5 +102,8 @@ class MessagesController < ApplicationController
     #raise params
   end
 
-
+  private
+    def message_params
+      params.require(:message_to_send).permit(:assignment, :groups => [])
+    end
 end
