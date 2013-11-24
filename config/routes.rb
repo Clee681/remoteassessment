@@ -3,15 +3,14 @@ Remoteassessment::Application.routes.draw do
   get '/about' => 'static#about', as: 'about'
 
   get '/assignments' => 'assignments#index', as: 'teacher_root'
-  get '/assignments/new' => 'assignments#new', as: 'new_assignment'
+
+  resources :assignments, only: [:new, :create, :show]
   
   resources :answers
 
   resources :choices
 
   resources :questions
-
-  # resources :assignments
 
   resources :students
 
@@ -22,8 +21,6 @@ Remoteassessment::Application.routes.draw do
   devise_scope :teacher do
     get '/login' => 'devise/sessions#new'
   end
-
-  # resources :teachers
 
   get '/test_send_action' => 'messages#test_send_action'
   get '/test_receive_answer' => 'messages#test_receive_answer'

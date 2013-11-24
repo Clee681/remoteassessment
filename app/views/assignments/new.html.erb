@@ -1,1 +1,5 @@
-hello, Chris
+<%= form_for @assignment do |f| %>
+  Assignment Name: <%= f.text_field :name %><br>
+  Assignment Description: <%= f.text_area :description %></br>
+  <%= f.submit 'Create New Assignment' %>
+<% end %>
