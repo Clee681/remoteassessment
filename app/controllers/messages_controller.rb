@@ -40,9 +40,9 @@ class MessagesController < ApplicationController
 
     students_array.each do |student|
       @client.account.sms.messages.create(
-        :from => +12139862443,
-        :to => "+12132158528",
-        :body => "Hi, chris"
+        :from => teacher_number,
+        :to => "+1#{student.phone_number}",
+        :body => "Hi, #{student.name}! #{question}"
       )
     end
 
