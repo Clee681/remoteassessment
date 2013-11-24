@@ -1,4 +1,5 @@
 Remoteassessment::Application.routes.draw do
+  get "teachers/index"
   resources :answers
 
   resources :choices
