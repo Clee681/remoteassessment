@@ -1,19 +1,20 @@
 Remoteassessment::Application.routes.draw do
-  get "teachers/index"
+  root :to => 'static#index'
+  get '/about' => 'static#about', as: 'about'
+
+  get '/assignments' => 'assignments#index', as: 'teacher_root'
+  
   resources :answers
 
   resources :choices
 
   resources :questions
 
-  resources :assignments
+  # resources :assignments
 
   resources :students
 
   resources :groups
-
-  # get "static/index"
-  # get "static/about"
   
   devise_for :teachers
 
@@ -21,11 +22,7 @@ Remoteassessment::Application.routes.draw do
     get '/login' => 'devise/sessions#new'
   end
 
-  resources :teachers
-
-  root :to => 'static#index'
-
-  get '/about' => 'static#about', as: 'about'
+  # resources :teachers
 
   get '/test_send_action' => 'messages#test_send_action'
   get '/test_receive_answer' => 'messages#test_receive_answer'
