@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131116213229) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "answers", force: true do |t|
     t.string   "response"
     t.boolean  "correct"
@@ -22,8 +25,8 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id"
-  add_index "answers", ["student_id"], name: "index_answers_on_student_id"
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+  add_index "answers", ["student_id"], name: "index_answers_on_student_id", using: :btree
 
   create_table "assignments", force: true do |t|
     t.string   "name"
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "assignments", ["teacher_id"], name: "index_assignments_on_teacher_id"
+  add_index "assignments", ["teacher_id"], name: "index_assignments_on_teacher_id", using: :btree
 
   create_table "choices", force: true do |t|
     t.string   "content"
@@ -45,7 +48,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "choices", ["question_id"], name: "index_choices_on_question_id"
+  add_index "choices", ["question_id"], name: "index_choices_on_question_id", using: :btree
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "groups", ["teacher_id"], name: "index_groups_on_teacher_id"
+  add_index "groups", ["teacher_id"], name: "index_groups_on_teacher_id", using: :btree
 
   create_table "questions", force: true do |t|
     t.string   "content"
@@ -63,7 +66,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "questions", ["assignment_id"], name: "index_questions_on_assignment_id"
+  add_index "questions", ["assignment_id"], name: "index_questions_on_assignment_id", using: :btree
 
   create_table "student_assignments", force: true do |t|
     t.integer  "student_id"
@@ -72,8 +75,8 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "student_assignments", ["assignment_id"], name: "index_student_assignments_on_assignment_id"
-  add_index "student_assignments", ["student_id"], name: "index_student_assignments_on_student_id"
+  add_index "student_assignments", ["assignment_id"], name: "index_student_assignments_on_assignment_id", using: :btree
+  add_index "student_assignments", ["student_id"], name: "index_student_assignments_on_student_id", using: :btree
 
   create_table "students", force: true do |t|
     t.string   "name"
@@ -83,7 +86,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.datetime "updated_at"
   end
 
-  add_index "students", ["group_id"], name: "index_students_on_group_id"
+  add_index "students", ["group_id"], name: "index_students_on_group_id", using: :btree
 
   create_table "teachers", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -102,7 +105,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.integer  "phone_number"
   end
 
-  add_index "teachers", ["email"], name: "index_teachers_on_email", unique: true
-  add_index "teachers", ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true
+  add_index "teachers", ["email"], name: "index_teachers_on_email", unique: true, using: :btree
+  add_index "teachers", ["reset_password_token"], name: "index_teachers_on_reset_password_token", unique: true, using: :btree
 
 end

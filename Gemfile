@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 gem 'rails', '4.0.1'
-gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -19,19 +18,26 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :test, :development do
-  gem "rspec-rails"
-  gem "capybara"
-  gem "selenium-webdriver"
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem "factory_girl_rails"
-  gem "twilio-test-toolkit"
-  gem "database_cleaner"
-  gem "dotenv-rails"
-  gem "pry"
+group :production do
+  gem 'rails_12factor'
+  gem 'pg'
 end
 
+group :test, :development do
+  gem 'pg'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'factory_girl_rails'
+  gem 'twilio-test-toolkit'
+  gem 'database_cleaner'
+  gem 'dotenv-rails'
+  gem 'pry'
+end
+
+ruby '2.0.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -44,4 +50,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
