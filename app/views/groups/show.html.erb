@@ -1,1 +1,8 @@
 <h1><%= @group.name %></h1>
+<h3>Students in the class:</h3>
+<ul>
+  <% @group.students.each do |student| %>
+    <li><%= student.name %></li>
+  <% end %>
+</ul>
+<%= link_to "Add a student to the class", new_student_path %>

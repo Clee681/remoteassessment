@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116213229) do
+ActiveRecord::Schema.define(version: 20131125204342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,15 +78,22 @@ ActiveRecord::Schema.define(version: 20131116213229) do
   add_index "student_assignments", ["assignment_id"], name: "index_student_assignments_on_assignment_id", using: :btree
   add_index "student_assignments", ["student_id"], name: "index_student_assignments_on_student_id", using: :btree
 
-  create_table "students", force: true do |t|
-    t.string   "name"
-    t.integer  "phone_number"
+  create_table "student_groups", force: true do |t|
+    t.integer  "student_id"
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "students", ["group_id"], name: "index_students_on_group_id", using: :btree
+  add_index "student_groups", ["group_id"], name: "index_student_groups_on_group_id", using: :btree
+  add_index "student_groups", ["student_id"], name: "index_student_groups_on_student_id", using: :btree
+
+  create_table "students", force: true do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "teachers", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -102,7 +109,7 @@ ActiveRecord::Schema.define(version: 20131116213229) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "phone_number"
+    t.string   "phone_number"
   end
 
   add_index "teachers", ["email"], name: "index_teachers_on_email", unique: true, using: :btree

@@ -6,7 +6,8 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
-
+    @student.group_ids = student_group_params["groups"]
+    
     if @student.save
       redirect_to student_path(@student)
     else
@@ -21,5 +22,9 @@ class StudentsController < ApplicationController
   private
     def student_params
       params.require(:student).permit(:name, :phone_number)
+    end
+
+    def student_group_params
+      params.require(:student).permit(:groups => [])
     end
 end
