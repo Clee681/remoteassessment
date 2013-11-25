@@ -36,8 +36,7 @@ class MessagesController < ApplicationController
     sms_content = @assignment.description
     teacher_number = current_teacher.phone_number
 
-
-    # let's an array of all our groups
+    # creates an array of group objects
     groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
       Group.find(group_id)
     end
@@ -57,27 +56,6 @@ class MessagesController < ApplicationController
     end
 
     redirect_to teacher_root_path, notice: "You successfully sent the message!"
-  end
-
-  def test_send_action
-    @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
-
-    question = Question.first.content
-    teacher_number = Teacher.first.phone_number
-
-    students_array = Student.all.map do |student|
-      student
-    end
-
-    students_array.each do |student|
-      @client.account.sms.messages.create(
-        :from => teacher_number,
-        :to => "+1#{student.phone_number}",
-        :body => "Hi, #{student.name}! #{question}"
-      )
-    end
-
-    redirect_to root_path
   end
 
   def test_receive_answer
