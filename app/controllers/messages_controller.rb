@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
 
     @assignment = Assignment.find(params[:message_to_send][:assignment])
     sms_content = @assignment.description
-    teacher_number = current_teacher.phone_number
+    teacher_number = current_teacher.phone_number.to_i
 
     # creates an array of group objects
     groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
 
     student_phone_numbers_to_text = groups_to_receive_assessment.map do |group|
       group.students.map do |student|
-        student.phone_number
+        student.phone_number.to_i
       end
     end.flatten
 
