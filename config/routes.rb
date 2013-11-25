@@ -4,6 +4,8 @@ Remoteassessment::Application.routes.draw do
 
   get '/assignments' => 'assignments#index', as: 'teacher_root'
 
+  post '/receivesms' => 'messages#receive_text_message'
+
   resources :assignments, only: [:new, :create, :show]
   
   resources :answers

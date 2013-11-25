@@ -58,6 +58,10 @@ class MessagesController < ApplicationController
     redirect_to teacher_root_path, notice: "You successfully sent the message!"
   end
 
+  def receive_text_message
+    raise params.inspect
+  end
+
   def test_receive_answer
     binding.pry
     # grab the from field
