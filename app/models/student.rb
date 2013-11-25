@@ -1,5 +1,5 @@
 class Student < ActiveRecord::Base
-  belongs_to :group
+  has_many :group
   has_many :teachers, :through => :groups
 
   has_many :student_assignments

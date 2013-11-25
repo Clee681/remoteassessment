@@ -1,0 +1,9 @@
+<%= form_for @student do |f| %>
+  <%= f.text_field :name %><br>
+  <%= f.text_field :phone_number %><br>
+  <% @groups.each do |group| %>
+    <%= check_box_tag 'student[groups][]', group.id, false, id: "group_#{group.id}" %>
+    <%= label_tag "group_#{group.id}", group.name %><br>
+  <% end %>
+  <%= f.submit 'Create Student' %>
+<% end %>
