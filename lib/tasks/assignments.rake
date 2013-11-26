@@ -7,9 +7,9 @@ namespace :assignments do
       puts "TEST: sending #{assignment.name}..."
       assignment.students.each do |student|
         # send assignment description (i.e. the first message) to all students
-        
+        message = Message.find_next_message(student, assignment)
+        message.send_text_message
         puts "  sending to #{student.name} #{student.phone_number}"
-        # delete the respective row in the student_assignments row
       end
     end
   end

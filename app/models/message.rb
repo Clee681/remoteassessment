@@ -2,17 +2,20 @@ class Message < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :student
 
-  def self.send_text_message(sms_content, from, to)
+  def send_text_message
     @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
 
     @client.account.sms.messages.create(
-      :from => "+1#{from}",
-      :to => "+1#{to}",
-      :body => "#{sms_content}"
+      :from => "+1#{self.from}",
+      :to => "+1#{self.to}",
+      :body => "#{self.content}"
     )
+
+    self.sent_at = Time.now
+    self.save
   end
 
-  def self.receive_text_message
+  def receive_text_message
     student_phone_number = params["From"].slice(2..-1)
     @student = Student.find_by(phone_number: student_phone_number)
 
@@ -38,7 +41,8 @@ class Message < ActiveRecord::Base
     Answer.create(student: student, question: question, response: params["Body"])
   end
 
-  def get_next_unsent_message(student, assignment)
+  def self.find_next_message(student, assignment)
     Message.where(student: student, assignment: assignment).order("order ASC").limit(1)
   end
+
 end

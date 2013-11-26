@@ -22,4 +22,4 @@ Immediate To-Dos:
 create a messages model & respective migration
 
 messages
-id   from:string  to:string  content:string  assignment_id  student_id   order
+id   from:string  to:string  content:string  assignment_id  student_id   order   ||    sent_at     next?
