@@ -55,6 +55,7 @@ class MessagesController < ApplicationController
     # for each student build a row in the join table with the appropriate assignment_id
     students_assigned_assignment.each do |student|
       student.student_assignments.build(assignment: @assignment)
+      student.save
     end
 
     # creates all of the respective messages to be sent in the messages table
