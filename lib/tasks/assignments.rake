@@ -6,9 +6,15 @@ namespace :assignments do
     @assignments.each do |assignment|
       puts "TEST: sending #{assignment.name}..."
       assignment.students.each do |student|
-        # send assignment description (i.e. the first message) to all students
-        message = Message.find_next_message(student, assignment)
-        message.send_text_message
+        message_to_send = Message.create(
+                          from: assignment.teacher.phone_number,
+                          to: student.phone_number,
+                          content: assignment.description,
+                          assignment: assignment,
+                          student: student)
+
+        message_to_send.send_text_message
+
         puts "  sending to #{student.name} #{student.phone_number}"
       end
     end

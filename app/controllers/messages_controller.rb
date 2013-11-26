@@ -37,15 +37,6 @@ class MessagesController < ApplicationController
 
     # creates all of the respective messages to be sent in the messages table
     students_assigned_assignment.each do |student|
-      
-      # create assignment message
-      Message.create(
-        from: @assignment.teacher.phone_number,
-        to: student.phone_number,
-        content: @assignment.description,
-        assignment: @assignment,
-        student: student,
-        order: 1)
 
       # create question messages
       # @assignment.questions.each_with_index do |question, index|
@@ -59,6 +50,17 @@ class MessagesController < ApplicationController
       # end
     end
     redirect_to teacher_root_path
+  end
+
+  def receive_text_message
+    student_phone_number = params["From"].slice(2..-1)
+    @student = Student.find_by(phone_number: student_phone_number)
+
+    if params["Body"] == "ready"
+      # we need to retrieve the next appropriate message to send
+      send_text_message
+    else
+    end
   end
 
   private
