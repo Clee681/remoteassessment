@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131125204342) do
+ActiveRecord::Schema.define(version: 20131126003033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,20 @@ ActiveRecord::Schema.define(version: 20131125204342) do
   end
 
   add_index "groups", ["teacher_id"], name: "index_groups_on_teacher_id", using: :btree
+
+  create_table "messages", force: true do |t|
+    t.string   "from"
+    t.string   "to"
+    t.string   "content"
+    t.integer  "assignment_id"
+    t.integer  "student_id"
+    t.integer  "order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["assignment_id"], name: "index_messages_on_assignment_id", using: :btree
+  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
 
   create_table "questions", force: true do |t|
     t.string   "content"

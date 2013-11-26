@@ -5,4 +5,5 @@ class Assignment < ActiveRecord::Base
   has_many :students, :through => :student_assignments
 
   has_many :questions
+  has_many :messages
 end

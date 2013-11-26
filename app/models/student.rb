@@ -8,5 +8,5 @@ class Student < ActiveRecord::Base
   has_many :assignments, :through => :student_assignments
 
   has_many :answers
-  
+  has_many :messages
 end

@@ -8,6 +8,8 @@
     <%= check_box_tag 'message_to_send[groups][]', g.id, false, id: "group_#{g.id}" %>
     <%= label_tag "group_#{g.id}", g.name %><br>
   <% end %>
+  <h3>What time would you like to send the assessment?</h3>
+  <%= datetime_field_tag "message_to_send[datetime_to_send]" %>
   <br>
   <%= submit_tag("Send Remote Assessment") %>
 <% end %>

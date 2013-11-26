@@ -29,24 +29,59 @@ class MessagesController < ApplicationController
     @groups = current_teacher.groups
   end
 
-  # @assignment = Assignment.find(params[:message_to_send][:assignment])
-  # sms_content = @assignment.description
-  # teacher_number = current_teacher.phone_number.to_i
+  def create
+    # create a new row in the student_assignments table
+    # create all of the respective messages for the students
+    @assignment = Assignment.find(params[:message_to_send][:assignment])
 
-  # creates an array of group objects
-  # groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
-  #   Group.find(group_id)
-  # end
+    # update datetime_to_send
+    @assignment.datetime_to_send = params[:message_to_send][:datetime_to_send]
+    @assignment.save
 
-  # @assignment = Assignment.find(params[:message_to_send][:assignment])
-  #   sms_content = @assignment.description
-  #   teacher_number = current_teacher.phone_number.to_i
+    # example params: "message_to_send" => {"assignment"=>"1", "groups"=>["1"]}
+    
+    # officially assign all of the students the assessment
+    groups_to_receive_assignment = params[:message_to_send][:groups].map do |group_id|
+      Group.find(group_id)
+    end
 
-  #   student_phone_numbers_to_text = groups_to_receive_assessment.map do |group|
-  #     group.students.map do |student|
-  #       student.phone_number.to_i
-  #     end
-  #   end.flatten
+    # returns an array of student objects
+    students_assigned_assignment = groups_to_receive_assignment.map do |group|
+      group.students.map do |student|
+        student
+      end
+    end.flatten
+
+    # for each student build a row in the join table with the appropriate assignment_id
+    students_assigned_assignment.each do |student|
+      student.student_assignments.build(assignment: @assignment)
+    end
+
+    # creates all of the respective messages to be sent in the messages table
+    students_assigned_assignment.each do |student|
+      
+      # create assignment message
+      Message.create(
+        from: @assignment.teacher.phone_number,
+        to: student.phone_number,
+        content: @assignment.description,
+        assignment: @assignment,
+        student: student,
+        order: 1)
+
+      # create question messages
+      @assignment.questions.each_with_index do |question, index|
+        Message.create(
+          from: @assignment.teacher.phone_number,
+          to: student.phone_number,
+          content: question.content,
+          assignment: @assignment,
+          student: student,
+          order: index+2)
+      end
+    end
+    redirect_to teacher_root_path
+  end
 
   def send_text_message(sms_content, from, to)
     @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
