@@ -29,37 +29,46 @@ class MessagesController < ApplicationController
     @groups = current_teacher.groups
   end
 
-  def send_text_message
+  # @assignment = Assignment.find(params[:message_to_send][:assignment])
+  # sms_content = @assignment.description
+  # teacher_number = current_teacher.phone_number.to_i
+
+  # creates an array of group objects
+  # groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
+  #   Group.find(group_id)
+  # end
+
+  # @assignment = Assignment.find(params[:message_to_send][:assignment])
+  #   sms_content = @assignment.description
+  #   teacher_number = current_teacher.phone_number.to_i
+
+  #   student_phone_numbers_to_text = groups_to_receive_assessment.map do |group|
+  #     group.students.map do |student|
+  #       student.phone_number.to_i
+  #     end
+  #   end.flatten
+
+  def send_text_message(sms_content, from, to)
     @client = Twilio::REST::Client.new ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN']
 
-    @assignment = Assignment.find(params[:message_to_send][:assignment])
-    sms_content = @assignment.description
-    teacher_number = current_teacher.phone_number.to_i
-
-    # creates an array of group objects
-    groups_to_receive_assessment = params[:message_to_send][:groups].map do |group_id|
-      Group.find(group_id)
-    end
-
-    student_phone_numbers_to_text = groups_to_receive_assessment.map do |group|
-      group.students.map do |student|
-        student.phone_number.to_i
-      end
-    end.flatten
-
-    student_phone_numbers_to_text.each do |student_phone_number|
-      @client.account.sms.messages.create(
-        :from => "+1#{teacher_number}",
-        :to => "+1#{student_phone_number}",
-        :body => "#{sms_content}"
-      )
-    end
+    @client.account.sms.messages.create(
+      :from => "+1#{from}",
+      :to => "+1#{to}",
+      :body => "#{sms_content}"
+    )
 
     redirect_to teacher_root_path, notice: "You successfully sent the message!"
   end
 
   def receive_text_message
-    raise params.inspect
+    student_phone_number = params["From"].slice(2..-1)
+    @student = Student.find_by(phone_number: student_phone_number)
+
+    if params["Body"] == "ready"
+      # we need to retrieve the next appropriate message to send
+      send_text_message
+    else
+    end
   end
 
   def test_receive_answer
@@ -69,9 +78,6 @@ class MessagesController < ApplicationController
     # compare to database
     # create an Answer object which belongs to the user
     # with that phone number
-
-    # "From"=>"+12132158528",
-
 
     student_phone = params["From"][2..-1].to_i
     student = Student.find_by(:phone_number => student_phone)

@@ -1,0 +1,25 @@
+create a new row in the student_assignments table => should track whether or not they have completed?
+create all of the necessary messages in the messages table
+cron job should run checking whether or not to send the initial assignment description
+once the initial assignment description is sent, all of the questions are waiting to be sent
+in the correct order
+
+keeping track of the student's progress on any given assignment:
+log the number of questions for a given assignment in the student_assignments table
+can then cross reference the number of remaining rows in the messages table
+
+if we receive a text message back from a student we need to figure out which assignment they were on,
+and which question they answered. 
+
+have a list command which allows the user to type list, which then sends back
+a list of outstanding assignments with an id. the student can then switch assignments
+by texting back the assignment id. the default is the last assignment they were on
+
+student_assignments.get_next_unsent_message
+- this method should check for a given assignment what is the next message to be sent
+
+Immediate To-Dos:
+create a messages model & respective migration
+
+messages
+id   from:string  to:string  content:string  assignment_id  student_id   order
