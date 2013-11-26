@@ -15,17 +15,6 @@ class Message < ActiveRecord::Base
     self.save
   end
 
-  def receive_text_message
-    student_phone_number = params["From"].slice(2..-1)
-    @student = Student.find_by(phone_number: student_phone_number)
-
-    if params["Body"] == "ready"
-      # we need to retrieve the next appropriate message to send
-      send_text_message
-    else
-    end
-  end
-
   def self.test_receive_answer
     binding.pry
     # grab the from field

@@ -13,6 +13,12 @@ namespace :assignments do
                           assignment: assignment,
                           student: student)
 
+        # do not reset current assignment if the student has another assignment in progress
+        unless student.current_assignment
+          student.current_assignment = assignment.id
+          student.save
+        end
+
         message_to_send.send_text_message
 
         puts "  sending to #{student.name} #{student.phone_number}"
