@@ -9,15 +9,13 @@ class MessagesController < ApplicationController
   end
 
   def create
+    # example params: "message_to_send" => {"assignment"=>"1", "groups"=>["1"]}
     # create a new row in the student_assignments table
-    # create all of the respective messages for the students
     @assignment = Assignment.find(params[:message_to_send][:assignment])
 
     # update datetime_to_send
     @assignment.datetime_to_send = params[:message_to_send][:datetime_to_send]
     @assignment.save
-
-    # example params: "message_to_send" => {"assignment"=>"1", "groups"=>["1"]}
     
     # officially assign all of the students the assessment
     groups_to_receive_assignment = params[:message_to_send][:groups].map do |group_id|
@@ -50,15 +48,15 @@ class MessagesController < ApplicationController
         order: 1)
 
       # create question messages
-      @assignment.questions.each_with_index do |question, index|
-        Message.create(
-          from: @assignment.teacher.phone_number,
-          to: student.phone_number,
-          content: question.content,
-          assignment: @assignment,
-          student: student,
-          order: index+2)
-      end
+      # @assignment.questions.each_with_index do |question, index|
+      #   Message.create(
+      #     from: @assignment.teacher.phone_number,
+      #     to: student.phone_number,
+      #     content: question.content,
+      #     assignment: @assignment,
+      #     student: student,
+      #     order: index+2)
+      # end
     end
     redirect_to teacher_root_path
   end
