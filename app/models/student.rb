@@ -23,7 +23,10 @@ class Student < ActiveRecord::Base
 
       self.update(current_question: self.next_question.id)
     else
-      self.update(current_question: nil)
+      student_assignment = self.student_assignments.where(assignment_id: self.current_assignment)
+      student_assignment.completed = true
+      student_assignment.save
+      self.update(current_assignment: nil, current_question: nil)
     end
   end
 
