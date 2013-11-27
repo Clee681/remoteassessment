@@ -53,11 +53,7 @@ class MessagesController < ApplicationController
   end
 
   def receive_text_message
-    student_phone_number = params["From"].slice(2..-1)
-    @student = Student.find_by(phone_number: student_phone_number)
-
-    AssignmentResponseHandler.run(params["Body"])
-    
+    AssignmentResponseHandler.run(params["From"], params["Body"])
   end
 
   private

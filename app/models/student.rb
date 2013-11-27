@@ -32,7 +32,8 @@ class Student < ActiveRecord::Base
 
   def record_answer(answer)
     question = Question.find(student.current_question)
-    self.answers.create(question: question, response: answer)
+    correctness = (answer == question.correct_answer)
+    self.answers.create(question: question, response: answer, correct: correctness)
   end
 
   def next_question
