@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131125204342) do
+ActiveRecord::Schema.define(version: 20131201211503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,10 @@ ActiveRecord::Schema.define(version: 20131125204342) do
     t.integer  "student_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "choice_id"
   end
 
+  add_index "answers", ["choice_id"], name: "index_answers_on_choice_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["student_id"], name: "index_answers_on_student_id", using: :btree
 
@@ -59,11 +61,27 @@ ActiveRecord::Schema.define(version: 20131125204342) do
 
   add_index "groups", ["teacher_id"], name: "index_groups_on_teacher_id", using: :btree
 
+  create_table "messages", force: true do |t|
+    t.string   "from"
+    t.string   "to"
+    t.string   "content"
+    t.integer  "assignment_id"
+    t.integer  "student_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "sent_at"
+  end
+
+  add_index "messages", ["assignment_id"], name: "index_messages_on_assignment_id", using: :btree
+  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
+
   create_table "questions", force: true do |t|
     t.string   "content"
     t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sequence"
+    t.string   "correct_answer"
   end
 
   add_index "questions", ["assignment_id"], name: "index_questions_on_assignment_id", using: :btree
@@ -73,9 +91,12 @@ ActiveRecord::Schema.define(version: 20131125204342) do
     t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "completed"
+    t.integer  "list_id"
   end
 
   add_index "student_assignments", ["assignment_id"], name: "index_student_assignments_on_assignment_id", using: :btree
+  add_index "student_assignments", ["list_id"], name: "index_student_assignments_on_list_id", using: :btree
   add_index "student_assignments", ["student_id"], name: "index_student_assignments_on_student_id", using: :btree
 
   create_table "student_groups", force: true do |t|
@@ -93,6 +114,9 @@ ActiveRecord::Schema.define(version: 20131125204342) do
     t.string   "phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "current_assignment"
+    t.integer  "current_question"
+    t.boolean  "resetting_assignment"
   end
 
   create_table "teachers", force: true do |t|
