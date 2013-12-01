@@ -19,8 +19,8 @@ class Student < ActiveRecord::Base
     self.incomplete_assignments(teacher_assignments).size == 0 ? false : true
   end
 
-  def send_incomplete_assignments?(teacher_assignments, from)
-    from == "list" || self.current_assignment == nil ? true : false
+  def send_incomplete_assignments?(teacher_assignments, body)
+    (body == "list" || self.current_assignment == nil) && self.incomplete_assignments?(teacher_assignments) ? true : false
   end
 
   def send_incomplete_assignments!(teacher_assignments)

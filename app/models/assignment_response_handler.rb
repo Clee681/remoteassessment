@@ -1,20 +1,20 @@
 class AssignmentResponseHandler
 
-  def run(from, to, body)
+  def self.run(from, to, body)
     student_phone_number = from.slice(2..-1)
     student = Student.find_by(phone_number: student_phone_number)
 
     teacher_phone_number = to.slice(2..-1)
     teacher = Teacher.find_by(phone_number: teacher_phone_number)
     # Retrieve assignments only for respective teacher
-    teacher_assignment_ids = teacher.assignment.map do |assignment|
+    teacher_assignment_ids = teacher.assignments.map do |assignment|
       assignment.id
     end
-
+    
     # student.screen_response(body)
-    student.send_incomplete_assignments! if send_incomplete_assignments?(teacher_assignment_ids, from)
-    student.record_answer(body)
-    student.send_next_question!
+    student.send_incomplete_assignments!(teacher_assignment_ids) if student.send_incomplete_assignments?(teacher_assignment_ids, body)
+    # student.record_answer(body)
+    # student.send_next_question!
   end
 end
 
@@ -41,3 +41,12 @@ end
 # iterate over incomplete assignments for a given student
 # add the numeric prefix for the assignment
 # compose sms message
+
+# run migration to add arbitrary column to student_assignments
+# table. send_incomplete_assignments! method should set
+# respective column for given student. need to add a flag
+# in the student model so we know that we are listening
+# for the arbitrary number. for that student's incomplete
+# assignments we will retrieve the assignment with the 
+# matching arbitrary number. retrieve the respective assignment_id
+# and set the current_assignment.

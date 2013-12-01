@@ -53,7 +53,9 @@ class MessagesController < ApplicationController
   end
 
   def receive_text_message
-    AssignmentResponseHandler.run(params["From"], params["Body"])
+    AssignmentResponseHandler.run(params["From"], params["To"], params["Body"])
+
+    render :nothing => true
   end
 
   private
