@@ -12,7 +12,7 @@ class AssignmentResponseHandler
     end
 
     # student.screen_response(body)
-    # student.send_incomplete_assignments!
+    student.send_incomplete_assignments! if send_incomplete_assignments?(teacher_assignment_ids, from)
     student.record_answer(body)
     student.send_next_question!
   end
