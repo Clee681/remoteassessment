@@ -50,12 +50,3 @@ end
 # iterate over incomplete assignments for a given student
 # add the numeric prefix for the assignment
 # compose sms message
-
-# run migration to add arbitrary column to student_assignments
-# table. send_incomplete_assignments! method should set
-# respective column for given student. need to add a flag
-# in the student model so we know that we are listening
-# for the arbitrary number. for that student's incomplete
-# assignments we will retrieve the assignment with the 
-# matching arbitrary number. retrieve the respective assignment_id
-# and set the current_assignment.
