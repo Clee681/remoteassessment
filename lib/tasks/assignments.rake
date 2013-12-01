@@ -15,8 +15,7 @@ namespace :assignments do
 
         # do not reset current assignment if the student has another assignment in progress
         unless student.current_assignment
-          student.current_assignment = assignment.id
-          student.save
+          student.update(current_assignment: assignment.id)
         end
 
         message_to_send.send_text_message

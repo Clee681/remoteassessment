@@ -16,10 +16,6 @@ class Message < ActiveRecord::Base
   end
 
   def self.test_receive_answer
-    binding.pry
-    # grab the from field
-    # remove the +1 which twilio adds
-    # compare to database
     # create an Answer object which belongs to the user
     # with that phone number
 

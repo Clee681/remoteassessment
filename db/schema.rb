@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131126215402) do
+ActiveRecord::Schema.define(version: 20131201211503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,9 +92,11 @@ ActiveRecord::Schema.define(version: 20131126215402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "completed"
+    t.integer  "list_id"
   end
 
   add_index "student_assignments", ["assignment_id"], name: "index_student_assignments_on_assignment_id", using: :btree
+  add_index "student_assignments", ["list_id"], name: "index_student_assignments_on_list_id", using: :btree
   add_index "student_assignments", ["student_id"], name: "index_student_assignments_on_student_id", using: :btree
 
   create_table "student_groups", force: true do |t|
@@ -114,6 +116,7 @@ ActiveRecord::Schema.define(version: 20131126215402) do
     t.datetime "updated_at"
     t.integer  "current_assignment"
     t.integer  "current_question"
+    t.boolean  "resetting_assignment"
   end
 
   create_table "teachers", force: true do |t|

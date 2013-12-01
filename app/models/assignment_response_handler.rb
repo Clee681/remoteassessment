@@ -10,11 +10,20 @@ class AssignmentResponseHandler
     teacher_assignment_ids = teacher.assignments.map do |assignment|
       assignment.id
     end
-    
-    # student.screen_response(body)
-    student.send_incomplete_assignments!(teacher_assignment_ids) if student.send_incomplete_assignments?(teacher_assignment_ids, body)
-    # student.record_answer(body)
-    # student.send_next_question!
+
+    if student.resetting_assignment
+      student.resume_assignment(body, teacher_assignment_ids)
+      student.send_current_question!
+    elsif student.asking_for_assignments?(teacher_assignment_ids, body)
+      if student.has_incomplete_assignments?(teacher_assignment_ids)
+        student.send_incomplete_assignments!(teacher_assignment_ids)
+      else
+        student.send_completed_message!(teacher_phone_number)  
+      end
+    else
+      student.record_answer(body)
+      student.send_next_question!
+    end
   end
 end
 

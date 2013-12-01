@@ -6,29 +6,30 @@ class Student < ActiveRecord::Base
 
   has_many :student_assignments
   has_many :assignments, :through => :student_assignments
-  # has_many :incomplete_assignments, -> { where("completed=null") }, class_name: 'StudentAssignment'
 
   has_many :answers
   has_many :messages
 
   def incomplete_assignments(teacher_assignments)
-    self.student_assignments.where(completed: nil, assignment_id: teacher_assignments)
+    self.student_assignments.where(completed: [nil, false], assignment_id: teacher_assignments)
   end
 
-  def incomplete_assignments?(teacher_assignments)
-    self.incomplete_assignments(teacher_assignments).size == 0 ? false : true
+  def has_incomplete_assignments?(teacher_assignments)
+    self.incomplete_assignments(teacher_assignments).size > 0
   end
 
-  def send_incomplete_assignments?(teacher_assignments, body)
-    (body == "list" || self.current_assignment == nil) && self.incomplete_assignments?(teacher_assignments) ? true : false
+  def asking_for_assignments?(teacher_assignments, body)
+    body.strip.downcase == "list" || self.current_assignment == nil
   end
 
   def send_incomplete_assignments!(teacher_assignments)
     message = self.incomplete_assignments(teacher_assignments).each_with_index.map do |incomplete_assignment, index|
+      incomplete_assignment.update(list_id: index+1)
       "#{index+1}. #{incomplete_assignment.assignment.name}"
     end.join("; ")
 
     teacher = Assignment.find(teacher_assignments.first).teacher
+    self.update(resetting_assignment: true)
 
     Message.create(
         from: teacher.phone_number,
@@ -36,6 +37,21 @@ class Student < ActiveRecord::Base
         content: message,
         student: self
       ).send_text_message
+  end
+
+  def send_completed_message!(teacher_phone_number)
+    Message.create(
+        from: teacher_phone_number,
+        to: self.phone_number,
+        content: "There are no incomplete assignments.",
+        student: self
+      ).send_text_message
+  end
+
+  def resume_assignment(body, teacher_assignments)
+    student_assignment_array = self.incomplete_assignments(teacher_assignments).where(list_id: body.to_i)
+    self.update(current_assignment: student_assignment_array.first.assignment.id, resetting_assignment: false)
+    self.set_current_question
   end
 
   def send_next_question!
@@ -51,22 +67,44 @@ class Student < ActiveRecord::Base
       self.update(current_question: self.next_question.id)
     else
       student_assignment = self.student_assignments.where(assignment_id: self.current_assignment)
-      student_assignment.completed = true
-      student_assignment.save
+      student_assignment.first.update(completed: true, list_id: nil)
       self.update(current_assignment: nil, current_question: nil)
     end
   end
 
-  def screen_response(answer)
-    if self.current_assignment.nil?
-      # response should set current_assignment
+  def send_current_question!
+    if self.current_question
+      question = Question.find(self.current_question)
+
+      Message.create(
+        from: question.assignment.teacher.phone_number,
+        to: self.phone_number,
+        content: question.content,
+        assignment: question.assignment,
+        student: self
+      ).send_text_message
     end
   end
 
   def record_answer(answer)
-    question = Question.find(student.current_question)
+    question = Question.find(self.current_question)
     correctness = (answer == question.correct_answer)
     self.answers.create(question: question, response: answer, correct: correctness)
+  end
+
+  def set_current_question
+    assignment = Assignment.find(self.current_assignment)
+    questions = assignment.questions.order("sequence ASC")
+    question_ids = questions.map { |question| question.id }
+
+    respective_answers = self.answers.where(question_id: question_ids)
+    answer_count = respective_answers.size
+
+    if respective_answers.empty?
+      self.update(current_question: questions.first.id)
+    elsif questions[answer_count]
+      self.update(current_question: questions[answer_count].id)  
+    end
   end
 
   def next_question
@@ -80,7 +118,6 @@ class Student < ActiveRecord::Base
       # get next question based on question order and the current_question
       question = Question.find(self.current_question)
       new_index = questions.index(question).next
-
       questions[new_index]
     end
   end
