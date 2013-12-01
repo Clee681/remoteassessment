@@ -23,3 +23,8 @@ create a messages model & respective migration
 
 messages
 id   from:string  to:string  content:string  assignment_id  student_id   order   ||    sent_at     next?
+
+
+when the user types "list" we should send back a list of student_assignments that have not been completed
+
+"ready" should send the first question of the current_assignment

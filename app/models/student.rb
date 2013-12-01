@@ -6,10 +6,33 @@ class Student < ActiveRecord::Base
 
   has_many :student_assignments
   has_many :assignments, :through => :student_assignments
-  has_many :incomplete_assignments, -> { where("completed=null") }, class_name: 'StudentAssignment'
+  # has_many :incomplete_assignments, -> { where("completed=null") }, class_name: 'StudentAssignment'
 
   has_many :answers
   has_many :messages
+
+  def incomplete_assignments(teacher_assignments)
+    self.student_assignments.where(completed: nil, assignment_id: teacher_assignments)
+  end
+
+  def incomplete_assignments?(teacher_assignments)
+    self.incomplete_assignments(teacher_assignments).size == 0 ? false : true
+  end
+
+  def send_incomplete_assignments!(teacher_assignments)
+    message = self.incomplete_assignments(teacher_assignments).each_with_index.map do |incomplete_assignment, index|
+      "#{index+1}. #{incomplete_assignment.assignment.name}"
+    end.join("; ")
+
+    teacher = Assignment.find(teacher_assignments.first).teacher
+
+    Message.create(
+        from: teacher.phone_number,
+        to: self.phone_number,
+        content: message,
+        student: self
+      ).send_text_message
+  end
 
   def send_next_question!
     if self.next_question
@@ -27,6 +50,12 @@ class Student < ActiveRecord::Base
       student_assignment.completed = true
       student_assignment.save
       self.update(current_assignment: nil, current_question: nil)
+    end
+  end
+
+  def screen_response(answer)
+    if self.current_assignment.nil?
+      # response should set current_assignment
     end
   end
 
