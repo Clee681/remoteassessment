@@ -1,2 +1,10 @@
-<%= @assignment.name %></br>
-<%= @assignment.description %>
+<h1><%= @assignment.name %></h1></br>
+<h3><%= @assignment.description %></h3></br>
+
+<%= link_to "Edit Assignment", edit_assignment_path(@assignment) %></br>
+
+<% @assignment.questions.order("sequence ASC").each_with_index do |question, index| %>
+  <p><%= "Question #{index+1}:"%></p>
+  <p><%= "#{question.content}" %></p></br>
+  <p><%= question.correct_answer %></p></br>
+<% end %>

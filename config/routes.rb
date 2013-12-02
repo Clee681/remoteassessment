@@ -6,7 +6,7 @@ Remoteassessment::Application.routes.draw do
 
   post '/receivesms' => 'messages#receive_text_message'
 
-  resources :assignments, only: [:new, :create, :show]
+  resources :assignments, only: [:new, :create, :show, :edit, :update]
   
   resources :answers
 

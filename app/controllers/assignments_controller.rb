@@ -11,6 +11,21 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
   end
 
+  def edit
+    @assignment = Assignment.find(params[:id])
+  end
+
+  def update
+    @assignment = Assignment.find(params[:id])
+    @assignment.update(assignment_params)
+
+    @assignment.questions.order("sequence ASC").each_with_index do |question, index|
+      question.update(content: params[:assignment][:questions][index], correct_answer: params[:assignment][:correct_answers][index])
+    end
+
+    redirect_to assignment_path(@assignment)
+  end
+
   def create
     @assignment = Assignment.new(assignment_params)
     @assignment.teacher_id = current_teacher.id

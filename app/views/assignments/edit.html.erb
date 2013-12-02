@@ -1,0 +1,11 @@
+<%= form_tag assignment_path, method: 'patch' do %>
+  <%= text_field_tag :'assignment[name]', "#{@assignment.name}", id: 'assignment_name' %></br>
+  <%= text_area_tag :'assignment[description]', "#{@assignment.description}", id: 'assignment_description' %></br>
+
+  <% @assignment.questions.order("sequence ASC").each do |question| %>
+    Question: <%= text_area_tag :'assignment[questions][]', "#{question.content}" %></br>
+    Answer: <%= text_field_tag :'assignment[correct_answers][]', "#{question.correct_answer}" %></br></br>
+  <% end %>
+
+  <%= submit_tag 'Update' %>
+<% end %>
