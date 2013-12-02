@@ -13,6 +13,7 @@ gem "devise"
 gem "twilio-ruby"
 gem "twilio-rb"
 gem "bootstrap-sass", github: "thomas-mcdonald/bootstrap-sass", branch: "3"
+gem "whenever", require: false
 
 group :doc do
   gem 'sdoc', require: false
