@@ -14,7 +14,7 @@ class MessagesController < ApplicationController
     @assignment = Assignment.find(params[:message_to_send][:assignment])
 
     # update datetime_to_send
-    @assignment.datetime_to_send = params[:message_to_send][:datetime_to_send]
+    @assignment.datetime_to_send = "#{params[:message_to_send][:date]} #{params[:message_to_send][:time]}"
     @assignment.save
 
     # officially assign all of the students the assessment

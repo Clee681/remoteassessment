@@ -11,3 +11,20 @@ $(function(){
     addNewQuestionToForm();
   })
 })
+
+
+$(function(){
+  $("#datepicker").pickadate({
+    // 2013-12-02 17:48:29 -0500
+    format: 'yyyy-mm-dd'
+  });
+})
+
+$(function(){
+  $("#timepicker").pickatime({
+    // 2013-12-02 17:48:29 -0500
+    min: [8,00],
+    max: [20,00],
+    interval: 15
+  });
+})
