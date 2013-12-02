@@ -18,8 +18,12 @@ class Student < ActiveRecord::Base
     self.incomplete_assignments(teacher_assignments).size > 0
   end
 
-  def asking_for_assignments?(teacher_assignments, body)
-    body.strip.downcase == "list" || self.current_assignment == nil
+  def asking_for_assignments?(body)
+    body.strip.downcase == "list" || self.current_assignment.nil?
+  end
+
+  def starting_an_assignment?(body)
+    body.strip.downcase == "start" && !self.current_assignment.nil?
   end
 
   def send_incomplete_assignments!(teacher_assignments)

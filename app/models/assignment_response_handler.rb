@@ -14,7 +14,10 @@ class AssignmentResponseHandler
     if student.resetting_assignment
       student.resume_assignment(body, teacher_assignment_ids)
       student.send_current_question!
-    elsif student.asking_for_assignments?(teacher_assignment_ids, body)
+    elsif student.starting_an_assignment?(body)
+      student.set_current_question
+      student.send_current_question!
+    elsif student.asking_for_assignments?(body)
       if student.has_incomplete_assignments?(teacher_assignment_ids)
         student.send_incomplete_assignments!(teacher_assignment_ids)
       else
@@ -42,11 +45,3 @@ end
 # if current_assignment is not nil
 # record_answer
 # send_next_question
-
-# need to add migration in order to track if the incoming
-# response from the student is supposed to set the
-# current_assignment
-
-# iterate over incomplete assignments for a given student
-# add the numeric prefix for the assignment
-# compose sms message
