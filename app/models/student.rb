@@ -68,6 +68,7 @@ class Student < ActiveRecord::Base
     else
       student_assignment = self.student_assignments.where(assignment_id: self.current_assignment)
       student_assignment.first.update(completed: true, list_id: nil)
+      # Send message notifying student of completed assignment
       self.update(current_assignment: nil, current_question: nil)
     end
   end

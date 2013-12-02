@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
 
     # set group assignment associations
     groups_to_receive_assignment.each do |group|
-      group.assignments.create(assignment: @assignment)
+      group.group_assignments.create(assignment: @assignment)
     end
 
     # returns an array of student objects
