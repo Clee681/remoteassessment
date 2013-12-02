@@ -2,7 +2,10 @@ namespace :assignments do
   task :initiate => :environment do
     # mark as started
     puts "Initiate assignment"
-    @assignments = Assignment.all.select { |assignment| Time.now > assignment.datetime_to_send }
+    @assignments = Assignment.all.select do |assignment|
+      (Time.now > assignment.datetime_to_send) && assignment.sent_at.nil?
+    end
+
     @assignments.each do |assignment|
       puts "TEST: sending #{assignment.name}..."
       assignment.students.each do |student|
@@ -13,12 +16,13 @@ namespace :assignments do
                           assignment: assignment,
                           student: student)
 
-        # do not reset current assignment if the student has another assignment in progress
+        # do not reset current assignment if the student is on another assignment
         unless student.current_assignment
           student.update(current_assignment: assignment.id)
         end
 
         message_to_send.send_text_message
+        assignment.update(sent_at: Time.now)
 
         puts "  sending to #{student.name} #{student.phone_number}"
       end
