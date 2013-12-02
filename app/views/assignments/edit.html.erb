@@ -1,11 +1,21 @@
-<%= form_tag assignment_path, method: 'patch' do %>
+<%= form_tag assignment_path(@assignment), method: 'patch' do %>
   <%= text_field_tag :'assignment[name]', "#{@assignment.name}", id: 'assignment_name' %></br>
   <%= text_area_tag :'assignment[description]', "#{@assignment.description}", id: 'assignment_description' %></br>
 
+  <div id="all_questions">
   <% @assignment.questions.order("sequence ASC").each do |question| %>
-    Question: <%= text_area_tag :'assignment[questions][]', "#{question.content}" %></br>
-    Answer: <%= text_field_tag :'assignment[correct_answers][]', "#{question.correct_answer}" %></br></br>
+    <div class="question_answer_section">
+      Question: <%= text_area_tag :"assignment[questions][#{question.id}][content]", "#{question.content}" %></br>
+      Answer: <%= text_field_tag :"assignment[questions][#{question.id}][correct_answer]", "#{question.correct_answer}" %></br></br>
+    </div>
   <% end %>
+  </div>
 
+    <div id="hidden_question_answer_section">
+      Question: <%= text_area_tag :"assignment[new_questions][][content]", "" %></br>
+      Answer: <%= text_field_tag :"assignment[new_questions][][correct_answer]", "" %></br></br>
+    </div>
+
+  <button type="button" class="add_question">Add Question</button>
   <%= submit_tag 'Update' %>
 <% end %>

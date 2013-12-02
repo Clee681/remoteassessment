@@ -19,8 +19,14 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @assignment.update(assignment_params)
 
-    @assignment.questions.order("sequence ASC").each_with_index do |question, index|
-      question.update(content: params[:assignment][:questions][index], correct_answer: params[:assignment][:correct_answers][index])
+    @assignment.questions.each do |question|
+      question.update(content: params[:assignment][:questions][:"#{question.id}"][:content], correct_answer: params[:assignment][:questions][:"#{question.id}"][:correct_answer])
+    end
+
+    num_of_questions = @assignment.questions.length
+
+    params[:assignment][:new_questions].each_with_index do |new_question, index|
+      @assignment.questions.create(content: new_question[:content], correct_answer: new_question[:correct_answer], sequence: num_of_questions+index+1)
     end
 
     redirect_to assignment_path(@assignment)
