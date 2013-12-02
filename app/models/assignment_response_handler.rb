@@ -18,7 +18,7 @@ class AssignmentResponseHandler
       if student.has_incomplete_assignments?(teacher_assignment_ids)
         student.send_incomplete_assignments!(teacher_assignment_ids)
       else
-        student.send_completed_message!(teacher_phone_number)  
+        student.send_no_assignments_message!(teacher_phone_number)  
       end
     else
       student.record_answer(body)

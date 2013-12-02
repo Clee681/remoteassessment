@@ -39,11 +39,22 @@ class Student < ActiveRecord::Base
       ).send_text_message
   end
 
-  def send_completed_message!(teacher_phone_number)
+  def send_no_assignments_message!(teacher_phone_number)
     Message.create(
         from: teacher_phone_number,
         to: self.phone_number,
         content: "There are no incomplete assignments.",
+        student: self
+      ).send_text_message
+  end
+
+  def send_completed_assignment_message!
+    teacher = Assignment.find(self.current_assignment).teacher
+
+    Message.create(
+        from: teacher.phone_number,
+        to: self.phone_number,
+        content: "All done! Thank you for taking the remote assessment!",
         student: self
       ).send_text_message
   end
@@ -68,7 +79,7 @@ class Student < ActiveRecord::Base
     else
       student_assignment = self.student_assignments.where(assignment_id: self.current_assignment)
       student_assignment.first.update(completed: true, list_id: nil)
-      # Send message notifying student of completed assignment
+      self.send_completed_assignment_message!
       self.update(current_assignment: nil, current_question: nil)
     end
   end
