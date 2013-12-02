@@ -3,6 +3,17 @@
 <%= link_to "New Assignment", new_assignment_path %><br>
 <%= link_to "Start Assignment Assessment", new_message_path %><br>
 <%= link_to "New Group", new_group_path %><br>
+
+
+<div class='container'>
+  <% @teacher.assignments.each do |assignment| %>
+    <h2><%= link_to assignment.name, assignment_path(assignment) %></h2>
+    
+  <% end %>
+</div>
+
+
+
 <div class='container'>
   <% @teacher.groups.each do |group| %>
     <h2><%= link_to group.name, group_path(group) %></h2>

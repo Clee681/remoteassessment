@@ -16,10 +16,15 @@ class MessagesController < ApplicationController
     # update datetime_to_send
     @assignment.datetime_to_send = params[:message_to_send][:datetime_to_send]
     @assignment.save
-    
+
     # officially assign all of the students the assessment
     groups_to_receive_assignment = params[:message_to_send][:groups].map do |group_id|
       Group.find(group_id)
+    end
+
+    # set group assignment associations
+    groups_to_receive_assignment.each do |group|
+      group.assignments.create(assignment: @assignment)
     end
 
     # returns an array of student objects

@@ -1,3 +1,15 @@
+VIEWS
+/dashboard (teacher_root)
+  recent activity (johnny finished Algebra 101)
+  groups
+    students
+
+/assignments
+  assignments
+    progress (assignments#show)
+
+
+
 create a new row in the student_assignments table => should track whether or not they have completed?
 create all of the necessary messages in the messages table
 cron job should run checking whether or not to send the initial assignment description

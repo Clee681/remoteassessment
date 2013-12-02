@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131201211503) do
+ActiveRecord::Schema.define(version: 20131202001045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 20131201211503) do
   end
 
   add_index "choices", ["question_id"], name: "index_choices_on_question_id", using: :btree
+
+  create_table "group_assignments", force: true do |t|
+    t.integer  "assignment_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "group_assignments", ["assignment_id"], name: "index_group_assignments_on_assignment_id", using: :btree
+  add_index "group_assignments", ["group_id"], name: "index_group_assignments_on_group_id", using: :btree
 
   create_table "groups", force: true do |t|
     t.string   "name"

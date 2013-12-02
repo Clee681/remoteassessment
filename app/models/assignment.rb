@@ -6,4 +6,7 @@ class Assignment < ActiveRecord::Base
 
   has_many :questions
   has_many :messages
+
+  has_many :group_assignments
+  has_many :groups, :through => :group_assignments
 end
