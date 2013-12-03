@@ -1,10 +1,18 @@
-<h1>Welcome, <%= @teacher.email %></h1>
+<h1>Hello, <%= @teacher.name %></h1>
 <!-- GROUP -->
-<%= link_to "New Assignment", new_assignment_path %><br>
-<%= link_to "Start Assignment Assessment", new_message_path %><br>
-<%= link_to "New Group", new_group_path %><br>
+<div class="container">
+  <div class="col-md-4 text-center">
+  <%= button_to "+ New Assignment", new_assignment_path, class: "btn btn-primary btn-lg", :method => :get %>
+  </div>
+  <div class="col-md-4 text-center">
+  <%= button_to "+ Schedule Assignment", new_message_path, class: "btn btn-primary btn-lg", :method => :get %>
+  </div>
+  <div class="col-md-4 text-center">
+  <%= button_to "+ New Group", new_group_path, class: "btn btn-primary btn-lg", :method => :get %>
+  </div>
+</div>
 
-
+<br>
 <div class='container'>
   <% @teacher.assignments.each do |assignment| %>
     <h2><%= link_to assignment.name, assignment_path(assignment) %></h2>
