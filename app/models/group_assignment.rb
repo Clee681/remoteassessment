@@ -14,8 +14,8 @@ class GroupAssignment < ActiveRecord::Base
       if respective_assignment.first.completed == true
         finished_students += 1
       end
-
-      finished_students/total_students
     end
+
+    finished_students/(total_students.to_f)
   end
 end

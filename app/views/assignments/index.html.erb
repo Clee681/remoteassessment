@@ -1,37 +1,39 @@
-<h1>Hello, <%= @teacher.name %></h1>
+<h1>Hello, <%= @teacher.name %>!</h1>
 <!-- GROUP -->
-<div class="container">
-  <div class="col-md-4 text-center">
-  <%= button_to "+ New Assignment", new_assignment_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
-  </div>
-  <div class="col-md-4 text-center">
-  <%= button_to "+ Schedule Assignment", new_message_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
-  </div>
-  <div class="col-md-4 text-center">
-  <%= button_to "+ New Group", new_group_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
-  </div>
-</div>
 
-<br>
-<div class='container'>
-  <% @teacher.assignments.each do |assignment| %>
+<div class="col-md-4 text-center">
+<%= button_to "+ New Assignment", new_assignment_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
+</div>
+<div class="col-md-4 text-center">
+<%= button_to "+ Schedule Assignment", new_message_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
+</div>
+<div class="col-md-4 text-center">
+<%= button_to "+ New Group", new_group_path, class: "btn btn-primary btn-lg btn-block btn-tall-ra", :method => :get %>
+</div><br><br><br><br>
+
+<h3>Pending Assignments:</h3>
+<% @teacher.assignments.each do |assignment| %>
+  <% if assignment.sent_at.nil? %>
     <h2><%= link_to assignment.name, assignment_path(assignment) %></h2>
-    
   <% end %>
-</div>
+<% end %>
 
-
-
-<div class='container'>
-  <% @teacher.groups.each do |group| %>
-    <h2><%= link_to group.name, group_path(group) %></h2>
-    <table>
-    <% group.students.each do |student| %>
-      <tr>
-        <td><%= student.name %></td>
-      </tr>
-    <% end %>
-  </table>
+<h3>Sent Assignments:</h3>
+<% @teacher.assignments.each do |assignment| %>
+  <% unless assignment.sent_at.nil? %>
+    <h2><%= link_to assignment.name, assignment_path(assignment) %></h2>
   <% end %>
-</div>
+<% end %>
+
+<h3>Groups:</h3>
+<% @teacher.groups.each do |group| %>
+  <h2><%= link_to group.name, group_path(group) %></h2>
+  <table>
+  <% group.students.each do |student| %>
+    <tr>
+      <td><%= student.name %></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
 <!-- END GROUP -->
