@@ -1,8 +1,6 @@
 class MessagesController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
-  # {"AccountSid"=>"ACa194ec6c151ef1e99bfec90e4836d138", "MessageSid"=>"SMf15a4b851e0fa1f00743ff220a1ba088", "Body"=>"Patrick number", "ToZip"=>"80216", "ToCity"=>"DENVER", "FromState"=>"CA", "ToState"=>"CO", "SmsSid"=>"SMf15a4b851e0fa1f00743ff220a1ba088", "To"=>"+13036257938", "ToCountry"=>"US", "FromCountry"=>"US", "SmsMessageSid"=>"SMf15a4b851e0fa1f00743ff220a1ba088", "ApiVersion"=>"2010-04-01", "FromCity"=>"LOS ANGELES", "SmsStatus"=>"received", "NumMedia"=>"0", "From"=>"+12132158528", "FromZip"=>"90249", "controller"=>"messages", "action"=>"test_receive_answer"}
-
   def new
     @assignments = current_teacher.assignments.where(sent_at: nil)
     @groups = current_teacher.groups
@@ -43,16 +41,6 @@ class MessagesController < ApplicationController
     # creates all of the respective messages to be sent in the messages table
     students_assigned_assignment.each do |student|
 
-      # create question messages
-      # @assignment.questions.each_with_index do |question, index|
-      #   Message.create(
-      #     from: @assignment.teacher.phone_number,
-      #     to: student.phone_number,
-      #     content: question.content,
-      #     assignment: @assignment,
-      #     student: student,
-      #     order: index+2)
-      # end
     end
     redirect_to teacher_root_path
   end
