@@ -14,8 +14,16 @@ class GroupsController < ApplicationController
     end
   end
 
+  def update
+    @group = Group.find(params[:id])
+    @group.student_groups.create(student_id: params[:group][:student_id])
+
+    redirect_to group_path(@group)
+  end
+
   def show
     @group = Group.find(params[:id])
+    @students = Student.all
   end
 
   private

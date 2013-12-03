@@ -8,4 +8,10 @@
     <li><%= student.name %></li>
   <% end %>
 </ul>
-<%= link_to "Add a student to the class", new_student_path %>
+
+<%= form_tag group_path(@group), method: 'patch' do %>
+  <%= select_tag :'group[student_id]', options_for_select(@students.map { |s| [s.name, s.id] } ) %>
+  <%= submit_tag 'Add Student' %>
+<% end %><br>
+
+<%= link_to "Create New Student", new_student_path %>

@@ -25,3 +25,8 @@
 <% end %>
 
 <h3>Answers By Question</h3>
+<% @assignment.questions.each_with_index do |question, index| %>
+  <%= "Question #{index+1}:" %><br>
+  <%= "Right: #{question.answers.where(correct: true).count}" %><br>
+  <%= "Wrong: #{question.answers.where(correct: false).count}" %><br><br>
+<% end %>
