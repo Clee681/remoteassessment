@@ -1,17 +1,42 @@
-<h1><%= @group.name %></h1>
+<h1 class="top-header-phrase"><%= @group.name %></h1>
 
-<h3>Assignments for this group:</h3>
-
-<h3>Students in the class:</h3>
-<ul>
-  <% @group.students.each do |student| %>
-    <li><%= student.name %></li>
+<div class="list-group col-md-4">
+  <li class="list-group-item list-group-title">Pending Assignments</li>
+  <% @group.assignments.each do |assignment| %>
+    <% unless assignment.sent? %>
+      <a href="<%= assignment_path(assignment) %>" class="list-group-item"><%= assignment.name %></a>
+    <% end %>
   <% end %>
-</ul>
 
-<%= form_tag group_path(@group), method: 'patch' do %>
-  <%= select_tag :'group[student_id]', options_for_select(@students.map { |s| [s.name, s.id] } ) %>
-  <%= submit_tag 'Add Student' %>
-<% end %><br>
+</div>
 
-<%= link_to "Create New Student", new_student_path %>
+<div class="list-group col-md-4">
+  <li class="list-group-item list-group-title">Sent Assignments</li>
+  <% @group.assignments.each do |assignment| %>
+    <% if assignment.sent? %>
+      <a href="<%= assignment_path(assignment) %>" class="list-group-item"><%= assignment.name %></a>
+      <div class="progress progress-striped">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <%= assignment.group_assignments.where(group_id: @group.id).first.group_progress_integer %>%;">
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="col-md-4">
+  <div class="list-group" id="group-<%=@group.id %>">
+    <li class="list-group-item list-group-title">Students in the class:</li>
+    <% @group.students.each do |student| %>
+      <a href="<%= student_path(student) %>" class="list-group-item" id="student-<%= student.id %>"><%= student.name %>
+        <span class="glyphicon glyphicon-remove pull-right"></span>
+      </a>
+    <% end %>
+  </div>
+  <%= form_tag group_path(@group), method: 'patch' do %>
+    <%= select_tag :'group[student_ids]', options_for_select(@students.map { |s| [s.name, s.id] }), class: 'selectpicker', multiple: true, 'data-live-search' => 'true' %>
+    <%= submit_tag 'Add Student', class: "btn btn-default btn-block", style: "background-color: #ecf0f1; color: rgb(145,145,145);" %>
+  <% end %><br>
+
+
+  <%= button_to "Create Student", new_student_path, class: "btn btn-default btn-block", style: "background-color: #1abc9c; color: white;", :method => :get %>
+</div>

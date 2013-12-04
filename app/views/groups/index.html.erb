@@ -1,0 +1,9 @@
+<h1>Groups</h1>
+
+<div class="list-group">
+  <% @groups.each do |group| %>
+    <a href="<%= group_path(group) %>" class="list-group-item"><%= group.name %>
+      <span class="badge"><%= group.students.count %></span>
+    </a>
+  <% end %>
+</div>

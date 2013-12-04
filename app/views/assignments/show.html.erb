@@ -15,7 +15,7 @@
 <h3>Completion Rate</h3>
 <% @assignment.group_assignments.each do |group_assignment| %>
   <p><%= group_assignment.group.name %></p>
-  <p><%= group_assignment.student_progress %></p>
+  <p><%= group_assignment.group_progress_percentage %></p>
 <% end %>
 
 <h3>Student Grades</h3>

@@ -9,6 +9,8 @@ class Assignment < ActiveRecord::Base
 
   has_many :group_assignments
   has_many :groups, :through => :group_assignments
-
   
+  def sent?
+    !self.sent_at.nil?
+  end
 end
