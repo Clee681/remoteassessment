@@ -2,7 +2,7 @@
 <h3><%= @assignment.description %></h3></br>
 
 <% if @assignment.sent_at.nil? %>
-  <%= link_to "Edit Assignment", edit_assignment_path(@assignment) %></br>
+  <%= link_to "Edit Assignment", edit_assignment_path(@assignment), class: "btn btn-primary" %></br>
 <% end %>
 
 <h3>Quiz</h3>
@@ -26,7 +26,21 @@
 
 <h3>Answers By Question</h3>
 <% @assignment.questions.each_with_index do |question, index| %>
-  <%= "Question #{index+1}:" %><br>
-  <%= "Right: #{question.answers.where(correct: true).count}" %><br>
-  <%= "Wrong: #{question.answers.where(correct: false).count}" %><br><br>
+  <%= "Question #{index+1}: #{question.content}" %><br>
+  <div class="row">
+    <div class="col-md-2">
+      <%= "Right: #{question.correct_answers}" %>
+      <%= "Wrong: #{question.wrong_answers}" %>
+    </div>
+    <div class="col-md-6">
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" style="width: <%= question.percent_correct %>%">
+          <span class="sr-only"><%= question.percent_correct %>% Correct</span>
+        </div>
+        <div class="progress-bar progress-bar-danger" style="width: <%= question.percent_wrong %>%">
+          <span class="sr-only"><%= question.percent_wrong %>% Wrong</span>
+        </div>
+      </div>
+    </div>
+  </div><br>
 <% end %>
