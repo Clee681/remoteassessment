@@ -22,6 +22,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'sqlite3', group: :test
+
 group :test, :development do
   gem 'pg'
   gem 'rspec-rails'
