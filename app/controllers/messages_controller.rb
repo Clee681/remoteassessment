@@ -7,7 +7,6 @@ class MessagesController < ApplicationController
   end
 
   def create
-    binding.pry
     # example params: "message_to_send" => {"assignment"=>"1", "groups"=>["1"]}
     # create a new row in the student_assignments table
     @assignment = Assignment.find(params[:message_to_send][:assignment])

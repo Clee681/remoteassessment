@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="span12 center">
-          <h1 class="shift new_assignment_title">
+          <h1 class="shift new_message_title">
             <span>Schedule Your Remote Assessment!</span>
           </h1>
           <p class="new-assignment-tagline">
@@ -16,34 +16,34 @@
 
   <div class="new-form-container form-horizontal" style="padding-bottom: 60px">
     <%= form_tag '/messages', method: 'post' do %>
-    <div class="form-group">
-        <%= label_tag 'message_to_send[assignment]', 'Assignment', class: "col-sm-4 control-label new-assignment-label" %>
-      <div class="col-sm-8">
-        <%= select_tag 'message_to_send[assignment]', options_for_select(@assignments.map { |a| [a.name, a.id] }), class: 'form-control selectpicker' %><br>
+      <div class="form-group">
+          <%= label_tag 'message_to_send[assignment]', 'Assignment', class: "col-sm-4 control-label new-assignment-label" %>
+        <div class="col-sm-8">
+          <%= select_tag 'message_to_send[assignment]', options_for_select(@assignments.map { |a| [a.name, a.id] }), class: 'form-control selectpicker' %><br>
+        </div>
       </div>
-    </div>
-    
-    <div class="form-group">
-      <label class="col-sm-4 control-label new-assignment-label" for="message_to_send_group_ids">Groups</label>
+      
+      <div class="form-group">
+        <label class="col-sm-4 control-label new-assignment-label" for="message_to_send_group_ids">Groups</label>
 
-      <div class="col-sm-8">
-        <%= select_tag :'message_to_send[group_ids]', options_for_select(@groups.map { |g| [g.name, g.id] }), class: 'selectpicker', multiple: true, 'data-live-search' => 'true' %>
+        <div class="col-sm-8">
+          <%= select_tag :'message_to_send[group_ids]', options_for_select(@groups.map { |g| [g.name, g.id] }), class: 'selectpicker', multiple: true, 'data-live-search' => 'true' %>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-        <%= label_tag 'message_to_send[date]', 'Send Date', class: "col-sm-4 control-label new-assignment-label" %>
-      <div class="col-sm-8">
-        <%= text_field_tag "message_to_send[date]", nil, class: 'form-control', id: 'datepicker' %>
+      <div class="form-group">
+          <%= label_tag 'message_to_send[date]', 'Send Date', class: "col-sm-4 control-label new-assignment-label" %>
+        <div class="col-sm-8">
+          <%= text_field_tag "message_to_send[date]", nil, class: 'form-control disable-cleaner', id: 'datepicker' %>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-        <%= label_tag 'message_to_send[time]', 'Send Time', class: "col-sm-4 control-label new-assignment-label" %>
-      <div class="col-sm-8">
-        <%= text_field_tag "message_to_send[time]", nil, class: 'form-control', id: 'timepicker' %>
+      <div class="form-group">
+          <%= label_tag 'message_to_send[time]', 'Send Time', class: "col-sm-4 control-label new-assignment-label" %>
+        <div class="col-sm-8">
+          <%= text_field_tag "message_to_send[time]", nil, class: 'form-control disable-cleaner', id: 'timepicker' %>
+        </div>
       </div>
-    </div>
 
       <%= submit_tag 'Schedule Assignment', class: 'btn btn-primary pull-right', id: 'new-assignment-button' %>
     <% end %>

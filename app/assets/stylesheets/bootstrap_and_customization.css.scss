@@ -10,6 +10,11 @@ $jumbotron-bg: white;
 
 @import 'bootstrap';
 
+.form-control.disable-cleaner {
+  background: #fff;
+  cursor: pointer;
+}
+
 .center {
   text-align: center;
 }
@@ -44,6 +49,7 @@ $jumbotron-bg: white;
   position: relative;
   color: #7f8c8d;
 }
+
 .new_assignment_title span:before,
 .new_assignment_title span:after {
   content: "";
@@ -53,6 +59,7 @@ $jumbotron-bg: white;
   top: 16px;
   width: 75%;
 }
+
 .new_assignment_title span:before {
   right: 100%;
   margin-right: 15px;
@@ -61,6 +68,33 @@ $jumbotron-bg: white;
   left: 100%;
   margin-left: 15px;
 }
+
+
+.new_message_title span {
+  display: inline-block;
+  position: relative;
+  color: #7f8c8d;
+}
+
+.new_message_title span:before,
+.new_message_title span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid rgb(234,233,234);
+  top: 16px;
+  width: 39%;
+}
+
+.new_message_title span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.new_message_title span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
 
 .new-assignment-tagline {
   color: #bdc3c7;
