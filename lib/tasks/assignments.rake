@@ -3,7 +3,9 @@ namespace :assignments do
     # mark as started
     puts "Initiate assignment"
     @assignments = Assignment.all.select do |assignment|
-      (Time.now > assignment.datetime_to_send) && assignment.sent_at.nil?
+      unless assignment.datetime_to_send.nil?
+        (Time.now > assignment.datetime_to_send) && assignment.sent_at.nil?
+      end
     end
 
     @assignments.each do |assignment|

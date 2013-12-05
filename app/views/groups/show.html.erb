@@ -13,7 +13,6 @@
 
 <div class="list-group col-md-4">
   <li class="list-group-item list-group-title">Sent Assignments</li>
-    <% binding.pry %>
   <% @group.assignments.each do |assignment| %>
     <% if assignment.sent? %>
       <a href="<%= assignment_path(assignment) %>" class="list-group-item"><%= assignment.name %></a>
