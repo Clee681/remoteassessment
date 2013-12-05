@@ -1,4 +1,5 @@
 <h1 class="top-header-phrase"><%= @group.name %></h1>
+<%= button_to "+ New Assignment", new_assignment_path, class: "btn", :method => :get, style: "background-color: #2ECC71; color: white;" %>
 
 <div class="list-group col-md-4">
   <li class="list-group-item list-group-title">Pending Assignments</li>
@@ -38,5 +39,5 @@
   <% end %><br>
 
 
-  <%= button_to "Create Student", new_student_path, class: "btn btn-default btn-block", style: "background-color: #1abc9c; color: white;", :method => :get %>
+  <%= button_to "Create Student", new_student_path, class: "btn btn-default btn-block", style: "background-color: #7f8c8d; color: white;", :method => :get %>
 </div>

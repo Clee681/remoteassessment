@@ -1,17 +1,51 @@
-<h1>Start your remote assessment now!</h1>
+<div id="entire-new-assignment-form">
+  <div class="panel-padding">
+    <div class="container">
+      <div class="row">
+        <div class="span12 center">
+          <h1 class="shift new_assignment_title">
+            <span>Schedule Your Remote Assessment!</span>
+          </h1>
+          <p class="new-assignment-tagline">
+            Remote Assessment helps you keep your class on schedule.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<%= form_tag '/messages', method: 'post' do %>
-  <%= label_tag('message_to_send[assignment]', "Please select the assignment:") %>
-  <%= select_tag 'message_to_send[assignment]', options_for_select(@assignments.map { |a| [a.name, a.id] }) %><br>
-  <h3>Please select which groups you would like to send the assessment.</h3>
-  <% @groups.each do |g| %>
-    <%= check_box_tag 'message_to_send[groups][]', g.id, false, id: "group_#{g.id}" %>
-    <%= label_tag "group_#{g.id}", g.name %><br>
-  <% end %>
-  <h3>What day would you like to send the assessment?</h3>
-  <%= text_field_tag "message_to_send[date]", nil, id: 'datepicker' %>
-  <h3>What time would you like to send the assessment?</h3>
-  <%= text_field_tag "message_to_send[time]", nil, id: 'timepicker' %>
-  <br>
-  <%= submit_tag("Send Remote Assessment") %>
-<% end %>
+  <div class="new-form-container form-horizontal" style="padding-bottom: 60px">
+    <%= form_tag '/messages', method: 'post' do %>
+    <div class="form-group">
+        <%= label_tag 'message_to_send[assignment]', 'Assignment', class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= select_tag 'message_to_send[assignment]', options_for_select(@assignments.map { |a| [a.name, a.id] }), class: 'form-control selectpicker' %><br>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-4 control-label new-assignment-label" for="message_to_send_group_ids">Groups</label>
+
+      <div class="col-sm-8">
+        <%= select_tag :'message_to_send[group_ids]', options_for_select(@groups.map { |g| [g.name, g.id] }), class: 'selectpicker', multiple: true, 'data-live-search' => 'true' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <%= label_tag 'message_to_send[date]', 'Send Date', class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= text_field_tag "message_to_send[date]", nil, class: 'form-control', id: 'datepicker' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <%= label_tag 'message_to_send[time]', 'Send Time', class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= text_field_tag "message_to_send[time]", nil, class: 'form-control', id: 'timepicker' %>
+      </div>
+    </div>
+
+      <%= submit_tag 'Schedule Assignment', class: 'btn btn-primary pull-right', id: 'new-assignment-button' %>
+    <% end %>
+  </div>
+</div>

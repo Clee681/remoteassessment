@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
   end
 
   def create
+    binding.pry
     # example params: "message_to_send" => {"assignment"=>"1", "groups"=>["1"]}
     # create a new row in the student_assignments table
     @assignment = Assignment.find(params[:message_to_send][:assignment])
@@ -16,7 +17,7 @@ class MessagesController < ApplicationController
     @assignment.save
 
     # officially assign all of the students the assessment
-    groups_to_receive_assignment = params[:message_to_send][:groups].map do |group_id|
+    groups_to_receive_assignment = params[:message_to_send][:group_ids].map do |group_id|
       Group.find(group_id)
     end
 
@@ -53,6 +54,6 @@ class MessagesController < ApplicationController
 
   private
     def message_params
-      params.require(:message_to_send).permit(:assignment, :groups => [])
+      params.require(:message_to_send).permit(:assignment, :group_ids => [])
     end
 end

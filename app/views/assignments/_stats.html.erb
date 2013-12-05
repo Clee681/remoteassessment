@@ -1,0 +1,18 @@
+<h3>Completion Rate</h3>
+<% @assignment.group_assignments.each do |group_assignment| %>
+  <p><%= group_assignment.group.name %></p>
+  <p><%= group_assignment.group_progress_percentage %></p>
+<% end %>
+
+<h3>Student Grades</h3>
+<% @assignment.students.each do |student| %>
+  <p><%= student.name %>:
+  <%= student.student_assignments.where(assignment: @assignment).first.grade %></p>
+<% end %>
+
+<h3>Answers By Question</h3>
+<% @assignment.questions.each_with_index do |question, index| %>
+  <%= "Question #{index+1}:" %><br>
+  <%= "Right: #{question.answers.where(correct: true).count}" %><br>
+  <%= "Wrong: #{question.answers.where(correct: false).count}" %><br><br>
+<% end %>

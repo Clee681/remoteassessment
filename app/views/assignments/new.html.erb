@@ -1,7 +1,46 @@
-<%= form_for @assignment do |f| %>
-  Assignment Name: <%= f.text_field :name, class: 'form-control' %><br>
-  Assignment Description: <%= f.text_area :description, class: 'form-control' %></br>
-  Question: <%= text_area_tag :"assignment[new_questions][][content]", "", class: 'form-control' %></br>
-  Answer: <%= text_field_tag :"assignment[new_questions][][correct_answer]", "", class: 'form-control' %></br>
-  <%= f.submit 'Create New Assignment', class: 'btn btn-default btn-lg' %>
-<% end %>
+<div id="entire-new-assignment-form">
+  <div class="panel-padding">
+    <div class="container">
+      <div class="row">
+        <div class="span12 center">
+          <h1 class="shift new_assignment_title">
+            <span>Create a New Assignment</span>
+          </h1>
+          <p class="new-assignment-tagline">
+            Remote Assessment helps you keep your class on schedule.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="new-form-container form-horizontal" style="padding-bottom: 60px">
+    <%= form_for @assignment do |f| %>
+    <div class="form-group">
+        <%= f.label :name, class: "col-sm-3 control-label new-assignment-label" %>
+      <div class="col-sm-9">
+        <%= f.text_field :name, class: 'form-control' %><br>
+      </div>
+    </div>
+      
+    <div class="form-group">
+        <%= f.label :description, class: "col-sm-3 control-label new-assignment-label" %>
+      <div class="col-sm-9">
+        <%= f.text_area :description, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label new-assignment-label with-margin" for="assignment_group_ids">Groups</label>
+
+      <div class="col-sm-9">
+        <%= select_tag :'assignment[group_ids]', options_for_select(@groups.map { |g| [g.name, g.id] }), class: 'selectpicker with-margin', multiple: true, 'data-live-search' => 'true' %>
+      </div>
+    </div>
+
+      <div>
+        <%= f.submit 'Create Assignment', class: 'btn btn-primary pull-right', id: 'new-assignment-button' %>
+      <div>
+    <% end %>
+  </div>
+</div>

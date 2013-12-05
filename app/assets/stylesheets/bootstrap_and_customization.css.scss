@@ -26,3 +26,59 @@ $jumbotron-bg: white;
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+.new-form-container {
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.edit-form-container {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+.new_assignment_title span {
+  display: inline-block;
+  position: relative;
+  color: #7f8c8d;
+}
+.new_assignment_title span:before,
+.new_assignment_title span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid rgb(234,233,234);
+  top: 16px;
+  width: 75%;
+}
+.new_assignment_title span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.new_assignment_title span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+.new-assignment-tagline {
+  color: #bdc3c7;
+  font-size: 1.2em;
+}
+
+#new-assignment-button {
+  margin-top: 18px;
+}
+
+.new-assignment-label {
+  color: #7f8c8d;
+}
+
+#entire-new-assignment-form {
+  margin-top: 10px;
+}
+
+.with-margin {
+  margin-top: 18px !important;
+}

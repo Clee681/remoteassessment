@@ -1,32 +1,26 @@
-<h1><%= @assignment.name %></h1></br>
-<h3><%= @assignment.description %></h3></br>
+<h1 class="top-header-phrase">Assignment: <%= @assignment.name %></h1>
+<p class="lead"><%= @assignment.description %></p>
 
-<% if @assignment.sent_at.nil? %>
-  <%= link_to "Edit Assignment", edit_assignment_path(@assignment) %></br>
-<% end %>
+<div>
+  <% if @assignment.sent_at.nil? %>
+    <%= button_to "Edit Assignment", edit_assignment_path(@assignment), class: "btn pull-left", :method => :get, style: "background-color: #2ECC71; color: white; margin-right: 18px;" %>
+  <% end %>
 
-<h3>Quiz</h3>
-<% @assignment.questions.order("sequence ASC").each_with_index do |question, index| %>
-  <p><%= "Question #{index+1}:"%></p>
-  <p><%= "#{question.content}" %></p>
-  <p><%= question.correct_answer %></p><br>
-<% end %>
+  <%= button_to "Schedule Assignment", new_message_path, class: "btn", :method => :get, style: "background-color: #7f8c8d; color: white;" %>
+</div>
 
-<h3>Completion Rate</h3>
-<% @assignment.group_assignments.each do |group_assignment| %>
-  <p><%= group_assignment.group.name %></p>
-  <p><%= group_assignment.group_progress_percentage %></p>
-<% end %>
+<ul class="list-group col-md-6">
+  <li class="list-group-item list-group-title">Quiz</li>
+  <% @assignment.questions.order("sequence ASC").each_with_index do |question, index| %>
+    <li class="list-group-item"><%= "Question #{index+1}: #{question.content}"%></li>
+  <% end %>
+</ul>
 
-<h3>Student Grades</h3>
-<% @assignment.students.each do |student| %>
-  <p><%= student.name %>:
-  <%= student.student_assignments.where(assignment: @assignment).first.grade %></p>
-<% end %>
-
-<h3>Answers By Question</h3>
-<% @assignment.questions.each_with_index do |question, index| %>
-  <%= "Question #{index+1}:" %><br>
-  <%= "Right: #{question.answers.where(correct: true).count}" %><br>
-  <%= "Wrong: #{question.answers.where(correct: false).count}" %><br><br>
-<% end %>
+<div class="list-group col-md-6">
+  <div class="list-group">
+    <li class="list-group-item list-group-title">Groups:</li>
+    <% @assignment.groups.each do |group| %>
+      <a href="<%= group_path(group) %>" class="list-group-item"><%= group.name %></a>
+    <% end %>
+  </div>
+</div>

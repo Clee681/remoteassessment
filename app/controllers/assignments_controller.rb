@@ -5,6 +5,7 @@ class AssignmentsController < ApplicationController
 
   def new
     @assignment = Assignment.new
+    @groups = Group.all
   end
 
   def show
@@ -35,8 +36,12 @@ class AssignmentsController < ApplicationController
   def create
     @assignment = Assignment.new(assignment_params)
     @assignment.teacher_id = current_teacher.id
-
+    
     if @assignment.save
+      params[:assignment][:group_ids].each do |group_id|
+        @assignment.group_assignments.create(group_id: group_id)
+      end
+
       redirect_to assignment_path(@assignment), notice: "You succesfully created a new assignment!"
     else
       render :new

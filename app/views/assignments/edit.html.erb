@@ -1,21 +1,69 @@
-<%= form_tag assignment_path(@assignment), method: 'patch' do %>
-  <%= text_field_tag :'assignment[name]', "#{@assignment.name}", id: 'assignment_name' %></br>
-  <%= text_area_tag :'assignment[description]', "#{@assignment.description}", id: 'assignment_description' %></br>
-
-  <div id="all_questions">
-  <% @assignment.questions.order("sequence ASC").each do |question| %>
-    <div class="question_answer_section">
-      Question: <%= text_area_tag :"assignment[questions][#{question.id}][content]", "#{question.content}" %></br>
-      Answer: <%= text_field_tag :"assignment[questions][#{question.id}][correct_answer]", "#{question.correct_answer}" %></br></br>
+<div class="panel-padding">
+  <div class="container">
+    <div class="row">
+      <div class="span12 center">
+        <h1 class="shift new_assignment_title">
+          <span><%= @assignment.name %></span>
+        </h1>
+      </div>
     </div>
-  <% end %>
   </div>
+</div>
+
+
+<div class="edit-form-container form-horizontal" style="padding-bottom: 60px">
+  <%= form_tag assignment_path(@assignment), method: 'patch' do %>
+    <div class="form-group">
+      <%= label_tag :"assignment[name]", 'Assignment Name', class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+      <%= text_field_tag :'assignment[name]', "#{@assignment.name}", id: 'assignment_name', class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :"assignment[description]", 'Assignment Description', class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= text_area_tag :'assignment[description]', "#{@assignment.description}", id: 'assignment_description', class: 'form-control' %>
+      </div>
+    </div>
+
+    <div id="all_questions">
+      <% @assignment.questions.order("sequence ASC").each_with_index do |question, index| %>
+        <div class="form-group">
+          <%= label_tag :"assignment[questions][#{question.id}][content]", "Question #{index+1}", class: "col-sm-4 control-label new-assignment-label" %>
+          <div class="col-sm-8">
+            <%= text_area_tag :"assignment[questions][#{question.id}][content]", "#{question.content}", class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= label_tag :"assignment[questions][#{question.id}][correct_answer]", "Answer", class: "col-sm-4 control-label new-assignment-label" %>
+          <div class="col-sm-8">
+            <%= text_field_tag :"assignment[questions][#{question.id}][correct_answer]", "#{question.correct_answer}", class: 'form-control' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
     <div id="hidden_question_answer_section">
-      Question: <%= text_area_tag :"assignment[new_questions][][content]", "" %></br>
-      Answer: <%= text_field_tag :"assignment[new_questions][][correct_answer]", "" %></br></br>
+      <div class="form-group">
+        <%= label_tag :"assignment[new_questions][][content]", "Question", class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= text_area_tag :"assignment[new_questions][][content]", nil, class: 'form-control' %>
+      </div>
+      </div>
+      
+      <div class="form-group">
+        <%= label_tag :"assignment[new_questions][][correct_answer]", "Answer", class: "col-sm-4 control-label new-assignment-label" %>
+      <div class="col-sm-8">
+        <%= text_field_tag :"assignment[new_questions][][correct_answer]", nil, class: 'form-control' %>
+      </div>
+      </div>
     </div>
-
-  <button type="button" class="add_question">Add Question</button>
-  <%= submit_tag 'Update' %>
-<% end %>
+    
+    <div style="margin-bottom: 60px;">
+      <%= submit_tag 'Update', class: 'btn btn-primary pull-right', style: 'margin-left: 18px;' %>
+      <button type="button" class="add_question btn btn-default pull-right" style="background-color: #ecf0f1; color: rgb(145,145,145);">Add Question</button>
+    </div>
+  <% end %>
+</div>
