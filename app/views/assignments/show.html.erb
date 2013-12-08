@@ -24,23 +24,28 @@
   <%= student.student_assignments.where(assignment: @assignment).first.grade %></p>
 <% end %>
 
+<% if @assignment.questions.first.total_answers == 0 %>
+  no submitted answers yet
+<% else %>
+
 <h3>Answers By Question</h3>
-<% @assignment.questions.each_with_index do |question, index| %>
-  <%= "Question #{index+1}: #{question.content}" %><br>
-  <div class="row">
-    <div class="col-md-2">
-      <%= "Right: #{question.correct_answers}" %>
-      <%= "Wrong: #{question.wrong_answers}" %>
-    </div>
-    <div class="col-md-6">
-      <div class="progress">
-        <div class="progress-bar progress-bar-success" style="width: <%= question.percent_correct %>%">
-          <span class="sr-only"><%= question.percent_correct %>% Correct</span>
-        </div>
-        <div class="progress-bar progress-bar-danger" style="width: <%= question.percent_wrong %>%">
-          <span class="sr-only"><%= question.percent_wrong %>% Wrong</span>
+  <% @assignment.questions.each_with_index do |question, index| %>
+    <%= "Question #{index+1}: #{question.content}" %><br>
+    <div class="row">
+      <div class="col-md-2">
+        <%= "Right: #{question.correct_answers}" %>
+        <%= "Wrong: #{question.wrong_answers}" %>
+      </div>
+      <div class="col-md-6">
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" style="width: <%= question.percent_correct %>%">
+            <span class="sr-only"><%= question.percent_correct %>% Correct</span>
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: <%= question.percent_wrong %>%">
+            <span class="sr-only"><%= question.percent_wrong %>% Wrong</span>
+          </div>
         </div>
       </div>
-    </div>
-  </div><br>
+    </div><br>
+  <% end %>
 <% end %>

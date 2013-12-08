@@ -20,7 +20,11 @@ class Question < ActiveRecord::Base
   end
 
   def percent_correct
-    (correct_answers/total_answers*100).to_i
+    if total_answers == 0
+      return 0
+    else
+      (correct_answers/total_answers*100).to_i
+    end
   end
 
   def percent_wrong
