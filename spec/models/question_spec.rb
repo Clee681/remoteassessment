@@ -35,6 +35,9 @@ describe Question do
   end
 
   context "behaviours" do
+    it "belongs to an assignment"
+
+    it "has many answers"
     
   end
 
