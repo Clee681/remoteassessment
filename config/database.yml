@@ -18,7 +18,7 @@ test:
   adapter: sqlite3
   encoding: unicode
   database: db/test.sqlite3
-  pool: 25
+  pool: 10
   timeout: 5000
 
 production:

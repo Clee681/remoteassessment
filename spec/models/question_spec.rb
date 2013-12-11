@@ -1,30 +1,41 @@
 require 'spec_helper'
 
 describe Question do
+  
+  it "has content and correct answer" do
+    question = Question.new(
+      content: "What year was the Declaration of Independence signed?",
+      correct_answer: "1776")
 
-  context "associations" do 
-    before :each do 
-      @q = create(:question)
-    end
-
-    it "has choices" do 
-      expect(@q.choices.first).to be_a Choice
-      expect(@q.choices.count).to eq 4
-    end
-
-    it "has one single correct answer" do 
-      correct = @q.choices.select(&:correctness)
-      expect(correct.count).to eq(1)
-    end
-
-    it "belongs to an assignment" do 
-      expect(@q.assignment).to be_an Assignment
-    end
-
+    expect(question).to be_valid
   end
 
-  it "has answers submitted by students" do 
-    pending
+  it "is invalid without content" do
+    expect(Question.new(
+      content: nil,
+      correct_answer: "1776")).to have(2).errors_on(:content)
+  end
+
+  it "is invalid without a correct answer" do
+    expect(Question.new(
+      content: "What year was the Declaration of Independence signed?",
+      correct_answer: nil)).to have(2).errors_on(:correct_answer)
+  end
+
+  it "has content within 1 to 160 characters" do
+    expect(Question.new(
+      content: "What year was the Declaration of Independence signed?What year was the Declaration of Independence signed?What year was the Declaration of Independence signed?????",
+      correct_answer: "1776")).to have(1).errors_on(:content)
+  end
+  
+  it "has a correct answer within 1 to 160 characters" do
+    expect(Question.new(
+      content: "What year was the Declaration of Independence signed?",
+      correct_answer: "17761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776177617761776")).to have(1).errors_on(:correct_answer)
+  end
+
+  context "behaviours" do
+    
   end
 
 end
